@@ -1,0 +1,15 @@
+.row {
+	display: flex;
+	justify-content: space-between;
+	width: 500px;
+}
+.row > span {
+	min-width: 300px;
+}
+.done {
+	text-decoration: line-through;
+}
+.important {
+	font-weight: bold;
+	color: orange;
+}
