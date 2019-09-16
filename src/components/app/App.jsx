@@ -18,7 +18,7 @@ export default class App extends Component {
 			this.createItem('Eat meat'),
 		],
 		term: '',
-		filter: 'active'
+		filter: 'all'
 	};
 
 	createItem(label) {
@@ -95,21 +95,27 @@ export default class App extends Component {
 		this.setState({ term });
 	};
 
+	onFilterChange = (filter) => {
+		this.setState({ filter });
+	};
+
 	search(items, term) {
 		if (term.length === 0) {
 			return items;
 		}
+
+		return items.filter((item) => {
+			return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
+		});
+	}
 
 	filter(items, filter) {
 		switch(filter) {
 			case 'all': return items;
 			case 'active': return items.filter((item) => !item.done);
 			case 'done': return items.filter((item) => item.done);
+			default: return items;
 		}
-
-	return items.filter((item) => {
-			return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
-		});
 	};
 
 	render() {
@@ -120,13 +126,16 @@ export default class App extends Component {
 		const doneCount = todoData.filter((el) => el.done).length;
 		const todoCount = todoData.length - doneCount;
 		return (
-			<div>
+			<>
 				<AppHeader toDo={todoCount} done={doneCount} />
 				<div className="row">
 					<SearchPanel
 						onSearchChange={this.onSearchChange}
 					/>
-					<ItemStatusFilter />
+					<ItemStatusFilter
+						filter={filter}
+						onFilterChange={this.onFilterChange}
+					/>
 				</div>
 				<TodoList
 					todos={showItem}
@@ -135,7 +144,7 @@ export default class App extends Component {
 					onToggleDone={this.onToggleDone}
 				/>
 				<AddItem onAddItem={this.onAddItem} />
-			</div>
+			</>
 		);
 	};
 

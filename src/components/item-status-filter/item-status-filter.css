@@ -2,3 +2,9 @@
 	display: flex;
 	justify-content: space-between;
 }
+.btn-info {
+	background-color: green;
+}
+.btn-outline {
+	border-color: blue;
+}
